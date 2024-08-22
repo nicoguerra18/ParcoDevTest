@@ -1,9 +1,5 @@
 import React from "react";
 
-// Amount
-// Decription
-// color
-
 const types = {
   hoursToPension: {
     colorClass: "text-parcoBlue", // Tailwind classes for the color

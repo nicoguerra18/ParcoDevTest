@@ -11,7 +11,7 @@ const types = {
   },
 };
 
-export default function MyDropDown({ type }) {
+export default function MyDropDown({ type, changeHours }) {
   const [isOpen, setIsOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [selectedOption, setSelectedOption] = useState(null);
@@ -21,9 +21,10 @@ export default function MyDropDown({ type }) {
     setIsOpen(!isOpen);
   };
 
-  const handleOptionClick = (option) => {
-    setInputValue(option);
-    setSelectedOption(option);
+  const handleOptionClick = (hours) => {
+    setInputValue(hours);
+    setSelectedOption(hours);
+    changeHours(hours);
     toggleDropdown();
   };
 

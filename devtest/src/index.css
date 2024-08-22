@@ -22,3 +22,36 @@ code {
   align-items: center;
   min-height: 100vh;
 }
+
+/* Slider CSS */
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: 0.2s;
+  transition: opacity 0.2s;
+}
+
+/* Handle CSS */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 40px;
+  width: 40px;
+  background-color: white;
+  border: 8px solid #60be64;
+  border-radius: 50%; /* Make it a circle */
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #04aa6d;
+  cursor: pointer;
+}

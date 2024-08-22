@@ -1,3 +1,3 @@
 export default function Handle() {
-  return <div></div>;
+  return <span class="handle" />;
 }
