@@ -1,26 +1,58 @@
 import HoursKey from "./components/HoursKey";
-import MyDropDown from "./components/MyDropDown";
-import Handle from "./components/Handle";
+import MyDropDownHTP from "./components/MyDropDownHTP";
+import MyDropDownHU from "./components/MyDropDownHU";
 import Slider from "./components/Slider";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 function App() {
-  const [totalHours, setTotalHours] = useState(520);
+  const [totalHours, setTotalHours] = useState(1000);
   const [hoursTorwardPension, setHoursTorwardPension] = useState(
-    Math.floor(totalHours / 100) * 100
+    Math.floor(totalHours / 174) * 174
   );
   const [hoursWasted, setHoursWasted] = useState(
     totalHours - hoursTorwardPension
   );
   const [hoursUsed, setHoursUsed] = useState(0);
 
+  function DropDownCard() {
+    return (
+      <div className="space-x-4 border max-h-[132px] rounded-lg p-4 mx-4 mb-7">
+        <div className="flex space-x-4">
+          <MyDropDownHTP
+            setHoursTorwardPension={setHoursTorwardPension}
+            hoursTorwardPension={hoursTorwardPension}
+            setHoursWasted={setHoursWasted}
+            totalHours={totalHours}
+            setHoursUsed={setHoursUsed}
+          />
+          <div className="h-20 border-l-2 border-gray-100" />
+          <MyDropDownHU
+            setHoursTorwardPension={setHoursTorwardPension}
+            hoursWasted={hoursWasted}
+            setHoursWasted={setHoursWasted}
+            totalHours={totalHours}
+            hoursUsed={hoursUsed}
+            setHoursUsed={setHoursUsed}
+          />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="App">
-      <div className="max-w-[500px] border rounded-lg shadow-md">
-        <div class="px-6 py-4">
-          <div class="font-medium text-xl mb-2">Sick Leave Calulator</div>
-          <p class="font-medium text-gray-600">
-            You are <b className="text-parcoRed">wasting {hoursWasted} hours</b>{" "}
+      <div className="max-w-[525px] max-h-[555px] border rounded-lg shadow-md">
+        <div className="px-6 py-4">
+          <div className="font-medium text-xl mb-2">Sick Leave Calulator</div>
+          <p className="font-medium text-gray-600">
+            You are{" "}
+            <b
+              className={
+                hoursWasted === 0 ? "text-parcoGreen" : "text-parcoRed"
+              }
+            >
+              wasting {hoursWasted} hours
+            </b>{" "}
             of sick leave
           </p>
         </div>
@@ -33,13 +65,12 @@ function App() {
           setHoursUsed={setHoursUsed}
           totalHours={totalHours}
         />
-        <div className="m-3 text-center text-sm">
+        <div className="m-3 text-center text-gray-600 text-sm">
           {" "}
           -- Interact with different ways you can spend your sick days! --
         </div>
-        <DropDownCard setHoursUsed={setHoursUsed} />
+        <DropDownCard />
       </div>
-      <Handle />
     </div>
   );
 }
@@ -69,18 +100,6 @@ function DialCard({
         setHoursUsed={setHoursUsed}
         totalHours={totalHours}
       />
-    </div>
-  );
-}
-
-function DropDownCard({ setHoursUsed }) {
-  return (
-    <div className="space-x-4 border rounded-lg p-4 mx-4 mb-6">
-      <div className="flex space-x-4">
-        <MyDropDown type="hoursToPension" />
-        <div className="h-20 border-l-2 border-gray-100" />
-        <MyDropDown type="hoursToSpend" changeHours={setHoursUsed} />
-      </div>
     </div>
   );
 }

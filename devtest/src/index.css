@@ -19,39 +19,140 @@ code {
 .App {
   display: flex;
   justify-content: center;
-  align-items: center;
+  margin-top: 3%;
+  /* align-self: center; */
   min-height: 100vh;
 }
 
+.slider-container {
+  display: grid;
+}
+
 /* Slider CSS */
-.slider {
-  -webkit-appearance: none;
+.slider1 {
+  --c: #60be64; /* active color */
+  --g: 4px; /* the gap */
+  --l: 15px; /* line thickness*/
+  --t: 10px; /* thumb border thickness */
+  --s: 40px; /* thumb size*/
+  --red: #fd5c70; /* Red color */
+  --blue: #3498db; /* Blue color */
+
   width: 100%;
-  height: 15px;
-  border-radius: 5px;
-  background: #d3d3d3;
-  outline: none;
-  opacity: 0.7;
-  -webkit-transition: 0.2s;
-  transition: opacity 0.2s;
-}
-
-/* Handle CSS */
-.slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
+  height: var(--s);
   appearance: none;
-  height: 40px;
-  width: 40px;
-  background-color: white;
-  border: 8px solid #60be64;
-  border-radius: 50%; /* Make it a circle */
-  cursor: pointer;
+  cursor: default;
+  overflow: hidden;
+  grid-column: 1;
+  grid-row: 1;
+  z-index: 1;
+  pointer-events: none;
 }
 
-.slider::-moz-range-thumb {
-  width: 25px;
-  height: 25px;
+.slider2 {
+  --c: #fd5c70; /* active color */
+  --g: 4px; /* the gap */
+  --l: 15px; /* line thickness*/
+  --t: 10px; /* thumb border thickness */
+  --s: 40px; /* thumb size*/
+  --red: #fd5c70; /* Red color */
+  --blue: #3498db; /* Blue color */
+
+  width: 100%;
+  height: var(--s);
+  appearance: none;
+  overflow: hidden;
+  grid-column: 1;
+  grid-row: 1;
+  z-index: 2;
+  pointer-events: none; /* Allow interactions to pass through */
+}
+
+/* Move the input bar to the right
+
+/* chromium */
+.slider1[type="range" i]::-webkit-slider-thumb {
+  appearance: none;
+  height: var(--s);
+  aspect-ratio: 1;
   border-radius: 50%;
-  background: #04aa6d;
-  cursor: pointer;
+  box-shadow: 0 0 0 var(--t) inset var(--c);
+  border-image: linear-gradient(90deg, var(--c) 50%, var(--red)) 0 1 /
+    calc(50% - var(--l) / 2) 100vw/0 calc(100vw + var(--g));
+  pointer-events: auto; /* Allow pointer events on the thumb */
+  cursor: pointer; /* Cursor on the thumb */
+}
+
+.slider2[type="range" i]::-webkit-slider-thumb {
+  appearance: none;
+  height: var(--s);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 50%, var(--blue) 0) 0 1 /
+    calc(50% - var(--l) / 2) 100vw/0 calc(100vw + var(--g));
+}
+
+/* ToolTip CSS */
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 6px;
+  border-radius: 6px;
+  right: 50%;
+  font-size: 12px;
+
+  /* Position the tooltip above the icon */
+  position: absolute;
+  bottom: 115%; /* Position above the icon */
+  left: 56%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.tooltip .tooltiptext::after {
+  content: " ";
+  position: absolute;
+  top: 100%; /* At the bottom of the tooltip */
+  left: 50%;
+  margin-left: -2px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: black transparent transparent transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+/* Scroll Bar */
+::-webkit-scrollbar {
+  width: 12px;
+  border-radius: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
