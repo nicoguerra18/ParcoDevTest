@@ -3,7 +3,7 @@ import React from "react";
 const types = {
   hoursToPension: {
     colorClass: "text-parcoBlue", // Tailwind classes for the color
-    description: "Hours Torwards Pension",
+    description: "Hours Towards Pension",
   },
   hoursWasted: {
     colorClass: "text-parcoRed",

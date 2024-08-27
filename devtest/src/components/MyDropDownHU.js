@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { UpArrow, DownArrow, QuestionMarkIcon } from "./Icons";
 
 export default function MyDropDownHU({
-  setHoursTorwardPension,
+  setHoursTowardsPension,
   hoursWasted,
   setHoursWasted,
   totalHours,
@@ -21,15 +22,15 @@ export default function MyDropDownHU({
   const hoursLogic = (inputValueHU) => {
     let hoursLeftOver = totalHours - inputValueHU;
     let newHTP = Math.floor(hoursLeftOver / cutoff) * cutoff;
-    setHoursTorwardPension(newHTP);
+    setHoursTowardsPension(newHTP);
     setHoursUsed(inputValueHU);
     setHoursWasted(totalHours - newHTP - inputValueHU);
   };
 
   const handleOptionClick = (option) => {
     hoursLogic(option);
-    toggleDropdown();
     handleSubmit();
+    toggleDropdown();
   };
 
   const handleInputChange = (e) => {
@@ -37,8 +38,16 @@ export default function MyDropDownHU({
   };
 
   const handleButtonClick = () => {
+    if (inputValue === "") {
+      toggleDropdown();
+      return;
+    }
     let newHoursUsed = parseFloat(inputValue);
+    // cut-off input values that are not allowed
+    if (newHoursUsed > 0) newHoursUsed = Math.min(totalHours, newHoursUsed);
+    else newHoursUsed = 0;
     if (!isNaN(newHoursUsed)) {
+      // this check may not be needed
       hoursLogic(newHoursUsed);
       handleSubmit();
     } else {
@@ -72,7 +81,10 @@ export default function MyDropDownHU({
         <label>Sick Leave Hours I Want To Spend</label>
         <div class="tooltip">
           <QuestionMarkIcon />
-          <span class="tooltiptext">Adjust hours you would like to spend</span>
+          <span class="tooltiptext">
+            Selecting a value that exceeds hours to spend will result in hours
+            being deducted from your pension allocation.
+          </span>
         </div>
       </div>
       <div className="relative">
@@ -80,7 +92,6 @@ export default function MyDropDownHU({
           type="text"
           value={inputValue}
           onChange={handleInputChange}
-          onClick={toggleDropdown}
           className={`border rounded-lg p-2 w-full mt-2  ${
             submitted ? "border-parcoGreen" : "border-gray-300"
           }`}
@@ -93,7 +104,13 @@ export default function MyDropDownHU({
             submitted === true ? "text-parcoGreen" : "text-grey"
           }`}
         >
-          ✓
+          {isOpen && inputValue === "" ? (
+            <UpArrow />
+          ) : !isOpen && inputValue === "" ? (
+            <DownArrow />
+          ) : (
+            "✓"
+          )}
         </button>
       </div>
       {isOpen && (
@@ -125,20 +142,5 @@ export default function MyDropDownHU({
         </div>
       )}
     </div>
-  );
-}
-
-function QuestionMarkIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="13"
-      height="13"
-      fill="#504f4f"
-      class="bi bi-question-circle-fill mb-6 ml-5 mr-2"
-      viewBox="0 0 16 16"
-    >
-      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247m2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z" />
-    </svg>
   );
 }

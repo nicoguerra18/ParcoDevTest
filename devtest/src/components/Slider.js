@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 
 export default function Slider({
-  hoursTorwardPension,
+  hoursTowardsPension,
   hoursWasted,
   hoursUsed,
-  setHoursTorwardPension,
+  setHoursTowardsPension,
   setHoursWasted,
   setHoursUsed,
   totalHours,
@@ -17,35 +17,31 @@ export default function Slider({
   // Update slider value when hoursUsed changes
   useEffect(() => {
     setValue(hoursUsed);
-  }, [hoursUsed]);
+  }, [hoursUsed, hoursTowardsPension]);
 
-  // Update slider value when hour toward pension changes
+  // Update slider value when hour towards pension changes
   useEffect(() => {
     let a = totalHours;
-    let b = hoursTorwardPension;
+    let b = hoursTowardsPension;
     setValue2(() => a - b);
-  }, [hoursTorwardPension]);
+  }, [hoursTowardsPension]);
+
+  // lock slider when hoursWasted == 0 (will not catch if you slide too fast though ****)
+  useEffect(() => {
+    if (hoursWasted === 0) {
+      setIsLocked(() => true);
+    }
+  }, [hoursUsed]);
 
   // Logic for slider values
   const handleSliderChange = (event) => {
-    const newValue = event.target.value;
-    const diff = newValue - hoursUsed;
-
-    if (hoursWasted - diff === 0) {
-      setHoursWasted(hoursWasted - diff);
-      setIsLocked(true);
-    } else if (hoursWasted - diff >= cutoff) {
-      setHoursTorwardPension(hoursTorwardPension + cutoff);
-      setHoursWasted(hoursWasted - cutoff - diff);
-    } else if (hoursWasted - diff > 0) {
-      setHoursWasted(hoursWasted - diff);
-    } else {
-      // take a chunk from hours torward pension and add it to hourswasted and then perfrom the operation
-      setHoursTorwardPension(hoursTorwardPension - cutoff);
-      setHoursWasted(hoursWasted + cutoff - diff);
-    }
-    setHoursUsed(newValue);
-    setValue(newValue);
+    let newHoursUsed = event.target.value;
+    let hoursLeftOver = totalHours - newHoursUsed;
+    let newHTP = Math.floor(hoursLeftOver / cutoff) * cutoff;
+    setHoursTowardsPension(newHTP);
+    setHoursUsed(newHoursUsed);
+    setHoursWasted(totalHours - newHTP - newHoursUsed);
+    setValue(newHoursUsed);
   };
 
   // Unlock the slider on touch up
@@ -64,6 +60,7 @@ export default function Slider({
         id="slider1"
         onChange={!isLocked ? handleSliderChange : null}
         onMouseUp={unlockSlider}
+        onMouseDown={unlockSlider}
       />
       <input
         type="range"
@@ -74,11 +71,7 @@ export default function Slider({
         className="slider2 rounded-full"
         id="slider2"
       />
-      <div
-        className={
-          "flex flex-col items-center w-full mt-2 font-bold text-gray-600"
-        }
-      >
+      <div className="flex flex-col items-center w-full mt-2 font-bold text-gray-600">
         <div className="text-3xl">{totalHours}</div>
         <div className="text-center w-[110px]">Total Hours of Sick Leave</div>
       </div>

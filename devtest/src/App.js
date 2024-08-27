@@ -2,15 +2,15 @@ import HoursKey from "./components/HoursKey";
 import MyDropDownHTP from "./components/MyDropDownHTP";
 import MyDropDownHU from "./components/MyDropDownHU";
 import Slider from "./components/Slider";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 function App() {
   const [totalHours, setTotalHours] = useState(1000);
-  const [hoursTorwardPension, setHoursTorwardPension] = useState(
+  const [hoursTowardsPension, setHoursTowardsPension] = useState(
     Math.floor(totalHours / 174) * 174
   );
   const [hoursWasted, setHoursWasted] = useState(
-    totalHours - hoursTorwardPension
+    totalHours - hoursTowardsPension
   );
   const [hoursUsed, setHoursUsed] = useState(0);
 
@@ -19,15 +19,15 @@ function App() {
       <div className="space-x-4 border max-h-[132px] rounded-lg p-4 mx-4 mb-7">
         <div className="flex space-x-4">
           <MyDropDownHTP
-            setHoursTorwardPension={setHoursTorwardPension}
-            hoursTorwardPension={hoursTorwardPension}
+            setHoursTowardsPension={setHoursTowardsPension}
+            hoursTowardsPension={hoursTowardsPension}
             setHoursWasted={setHoursWasted}
             totalHours={totalHours}
             setHoursUsed={setHoursUsed}
           />
           <div className="h-20 border-l-2 border-gray-100" />
           <MyDropDownHU
-            setHoursTorwardPension={setHoursTorwardPension}
+            setHoursTowardsPension={setHoursTowardsPension}
             hoursWasted={hoursWasted}
             setHoursWasted={setHoursWasted}
             totalHours={totalHours}
@@ -57,8 +57,8 @@ function App() {
           </p>
         </div>
         <DialCard
-          hoursTorwardPension={hoursTorwardPension}
-          setHoursTorwardPension={setHoursTorwardPension}
+          hoursTowardsPension={hoursTowardsPension}
+          setHoursTowardsPension={setHoursTowardsPension}
           hoursWasted={hoursWasted}
           setHoursWasted={setHoursWasted}
           hoursUsed={hoursUsed}
@@ -77,23 +77,23 @@ function App() {
 
 function DialCard({
   totalHours,
-  hoursTorwardPension,
+  hoursTowardsPension,
   hoursWasted,
   hoursUsed,
-  setHoursTorwardPension,
+  setHoursTowardsPension,
   setHoursUsed,
   setHoursWasted,
 }) {
   return (
     <div className="space-x-4 border rounded-lg overflow-hidden p-4 mx-4 mb-4">
       <div className="flex">
-        <HoursKey hours={hoursTorwardPension} type="hoursToPension" />
+        <HoursKey hours={hoursTowardsPension} type="hoursToPension" />
         <HoursKey hours={hoursWasted} type="hoursWasted" />
         <HoursKey hours={hoursUsed} type="hoursUsed" />
       </div>
       <Slider
-        hoursTorwardPension={hoursTorwardPension}
-        setHoursTorwardPension={setHoursTorwardPension}
+        hoursTowardsPension={hoursTowardsPension}
+        setHoursTowardsPension={setHoursTowardsPension}
         hoursWasted={hoursWasted}
         hoursUsed={hoursUsed}
         setHoursWasted={setHoursWasted}
@@ -103,5 +103,21 @@ function DialCard({
     </div>
   );
 }
+
+// control button follows mouse but movement is restricted to the circumfrence of the circle
+// get angle of mouse and horizontal axis of the center
+// get mouse position and the cicle center in the wondow coordinates
+//
+// theta = arctan(mouseRelY / mouseRelX)
+// quadrant 2
+// if (mouseRelX < 0 && mouseRelY > 0) {
+//   theta += Math.PI
+// // quadrant 3
+// } else if (mouseRelX < 0 && mouseRelY <= 0) {
+//   theta += Math.PI
+// // quadrant 4
+// } else if (mouseRelX > 0 && mouseRelY <= 0) {
+//   theta += 2 * Math.PI
+// }
 
 export default App;
