@@ -2,7 +2,7 @@ import HoursKey from "./components/HoursKey";
 import MyDropDownHTP from "./components/MyDropDownHTP";
 import MyDropDownHU from "./components/MyDropDownHU";
 import Slider from "./components/Slider";
-import { useState, useRef } from "react";
+import { useState } from "react";
 
 function App() {
   const [totalHours, setTotalHours] = useState(1000);
@@ -28,6 +28,7 @@ function App() {
           <div className="h-20 border-l-2 border-gray-100" />
           <MyDropDownHU
             setHoursTowardsPension={setHoursTowardsPension}
+            hoursTowardPension={hoursTowardsPension}
             hoursWasted={hoursWasted}
             setHoursWasted={setHoursWasted}
             totalHours={totalHours}
@@ -103,21 +104,5 @@ function DialCard({
     </div>
   );
 }
-
-// control button follows mouse but movement is restricted to the circumfrence of the circle
-// get angle of mouse and horizontal axis of the center
-// get mouse position and the cicle center in the wondow coordinates
-//
-// theta = arctan(mouseRelY / mouseRelX)
-// quadrant 2
-// if (mouseRelX < 0 && mouseRelY > 0) {
-//   theta += Math.PI
-// // quadrant 3
-// } else if (mouseRelX < 0 && mouseRelY <= 0) {
-//   theta += Math.PI
-// // quadrant 4
-// } else if (mouseRelX > 0 && mouseRelY <= 0) {
-//   theta += 2 * Math.PI
-// }
 
 export default App;

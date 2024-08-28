@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { UpArrow, DownArrow, QuestionMarkIcon } from "./Icons";
 
 export default function MyDropDownTP({
@@ -10,7 +10,7 @@ export default function MyDropDownTP({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const [submitted, setSubmitted] = useState(false); // ***
 
   const cutoff = 174;
 
@@ -37,24 +37,21 @@ export default function MyDropDownTP({
     setInputValue(e.target.value);
   };
 
+  // const handleSubmit = () => {
+  //   setSubmitted(true);
+  // };
+
   const handleButtonClick = () => {
     if (inputValue === "") {
       toggleDropdown();
       return;
     }
-
     let newHTPValue = parseFloat(inputValue);
     // cut-off input values that are not allowed
     if (newHTPValue > 0) newHTPValue = Math.min(totalHours, newHTPValue);
     else newHTPValue = 0;
-
-    if (!isNaN(newHTPValue)) {
-      // this check may not be needed
-      hoursLogic(newHTPValue);
-      setSubmitted(true);
-    } else {
-      console.error("Invalid input");
-    }
+    hoursLogic(newHTPValue);
+    setSubmitted(true); // was using another callback function before
   };
 
   let options = [];

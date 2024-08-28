@@ -3,6 +3,7 @@ import { UpArrow, DownArrow, QuestionMarkIcon } from "./Icons";
 
 export default function MyDropDownHU({
   setHoursTowardsPension,
+  hoursTowardPension,
   hoursWasted,
   setHoursWasted,
   totalHours,
@@ -65,7 +66,7 @@ export default function MyDropDownHU({
     let messageRendered = false; // Flag to ensure the message is rendered only once
 
     for (let i = 0; i <= totalHours; i += cutoff) {
-      if (i > hoursWasted && !messageRendered) {
+      if (totalHours - i < hoursTowardPension && !messageRendered) {
         // Add the message only the first time we go above hoursWasted
         options.push("cutting-note");
         messageRendered = true;

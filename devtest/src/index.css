@@ -32,7 +32,7 @@ code {
 .slider1 {
   --c: #60be64; /* active color */
   --g: 4px; /* the gap */
-  --l: 15px; /* line thickness*/
+  --l: 18px; /* line thickness*/
   --t: 10px; /* thumb border thickness */
   --s: 40px; /* thumb size*/
   --red: #fd5c70; /* Red color */
@@ -52,7 +52,7 @@ code {
 .slider2 {
   --c: #fd5c70; /* active color */
   --g: 4px; /* the gap */
-  --l: 15px; /* line thickness*/
+  --l: 18px; /* line thickness*/
   --t: 10px; /* thumb border thickness */
   --s: 40px; /* thumb size*/
   --red: #fd5c70; /* Red color */
